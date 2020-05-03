@@ -29,7 +29,9 @@ export default class CreateTransactions1588353310261
           },
           {
             name: 'value',
-            type: 'float',
+            type: 'decimal',
+            precision: 10,
+            scale: 2,
           },
           {
             name: 'category_id',
@@ -53,7 +55,7 @@ export default class CreateTransactions1588353310261
     await queryRunner.createForeignKey(
       'transactions',
       new TableForeignKey({
-        name: 'TransactionCetegory',
+        name: 'TransactionCategory',
         columnNames: ['category_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'categories',

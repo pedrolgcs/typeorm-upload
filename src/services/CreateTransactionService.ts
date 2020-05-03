@@ -23,6 +23,12 @@ class CreateTransactionService {
     const categoryRepository = getRepository(Category);
     const transactionRepository = getCustomRepository(TransactionsRepository);
 
+    const { total } = await transactionRepository.getBalance();
+
+    if (type === 'outcome' && total < value) {
+      throw new AppError('You do not have enough balance');
+    }
+
     if (!['income', 'outcome'].includes(type)) {
       throw new AppError('Invalid transaction type.');
     }
@@ -40,7 +46,7 @@ class CreateTransactionService {
       title,
       value,
       type,
-      category_id: categoryFind.id,
+      category: categoryFind,
     });
 
     await transactionRepository.save(transaction);
